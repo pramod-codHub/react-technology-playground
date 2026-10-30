@@ -1,0 +1,465 @@
+
+# 01. React Basics
+
+Welcome to the React Basics learning module.
+
+This module covers the fundamental concepts of React, including Components, Props, State, and Hooks.
+
+The goal is to understand how React works internally and learn how to build reusable, dynamic, and maintainable user interfaces.
+
+---
+
+# 📚 Learning Topics
+
+1. [Components](#1-components)
+2. [Props](#2-props)
+3. [State](#3-state)
+4. [Hooks](#4-hooks)
+
+---
+
+# 1. Components
+
+## What are Components?
+
+Components are independent and reusable pieces of UI in a React application.
+
+A React application is generally built by combining multiple components.
+
+For example:
+- Header
+- Navbar
+- Sidebar
+- UserProfile
+- Footer
+
+## Types of Components
+
+### Functional Components
+
+A functional component is a JavaScript function that returns JSX.
+
+Example:
+
+```jsx
+function Welcome() {
+  return <h1>Welcome to React!</h1>;
+}
+
+export default Welcome;
+```
+
+Using a component:
+
+```jsx
+import Welcome from "./Welcome";
+
+function App() {
+  return (
+    <div>
+      <Welcome />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Important Points
+
+- Component names must start with an uppercase letter.
+- Components should return JSX.
+- Components can be reused multiple times.
+- Components can contain other components.
+- Components help maintain clean and modular code.
+
+## Component Composition
+
+Component composition means combining smaller components to create a larger UI.
+
+Example:
+
+```jsx
+function Header() {
+  return <h1>My Application</h1>;
+}
+
+function Footer() {
+  return <p>Copyright 2026</p>;
+}
+
+function App() {
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
+}
+```
+
+---
+
+# 2. Props
+
+## What are Props?
+
+Props (Properties) are used to pass data from a parent component to a child component.
+
+Props make components reusable and dynamic.
+
+### Example
+
+Parent Component:
+
+```jsx
+function App() {
+  return (
+    <UserProfile
+      name="Pramod"
+      age={28}
+    />
+  );
+}
+
+export default App;
+```
+
+Child Component:
+
+```jsx
+function UserProfile(props) {
+  return (
+    <div>
+      <h2>{props.name}</h2>
+      <p>Age: {props.age}</p>
+    </div>
+  );
+}
+
+export default UserProfile;
+```
+
+### Props Destructuring
+
+Instead of accessing props.name and props.age, we can use destructuring.
+
+```jsx
+function UserProfile({ name, age }) {
+  return (
+    <div>
+      <h2>{name}</h2>
+      <p>Age: {age}</p>
+    </div>
+  );
+}
+```
+
+## Important Points
+
+- Props are passed from parent to child.
+- Props are read-only.
+- Props help create reusable components.
+- A child component should not directly modify its props.
+- Props can contain strings, numbers, arrays, objects, functions, and JSX.
+
+## Props vs State
+
+| Props | State |
+|---|---|
+| Passed from parent | Managed by component |
+| Read-only | Updated using state setter |
+| Used to share data | Used to manage changing data |
+| Controlled by parent | Controlled by component or owner |
+
+---
+
+# 3. State
+
+## What is State?
+
+State is data managed by a React component.
+
+When state changes, React schedules a re-render so the UI can display the updated data.
+
+We use the `useState` hook to manage state in functional components.
+
+### useState Syntax
+
+```jsx
+const [state, setState] = useState(initialValue);
+```
+
+Where:
+
+- state: Current state value.
+- setState: Function to update state.
+- initialValue: Initial state value.
+
+### Example: Counter Application
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+
+      <button onClick={() => setCount(count - 1)}>
+        Decrement
+      </button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+## Updating State
+
+For updates based on the previous state, use the functional updater form.
+
+```jsx
+setCount((previousCount) => previousCount + 1);
+```
+
+## State with Objects
+
+```jsx
+const [user, setUser] = useState({
+  name: "Pramod",
+  age: 28
+});
+
+setUser((previousUser) => ({
+  ...previousUser,
+  age: 29
+}));
+```
+
+## State with Arrays
+
+```jsx
+const [users, setUsers] = useState([]);
+
+setUsers((previousUsers) => [
+  ...previousUsers,
+  "Rahul"
+]);
+```
+
+## Important Points
+
+- State is used to manage dynamic data.
+- State updates trigger re-rendering.
+- Never modify state directly.
+- Use the setter function to update state.
+- React may batch multiple state updates.
+- State updates should be treated as immutable.
+
+---
+
+# 4. Hooks
+
+## What are Hooks?
+
+Hooks are special React functions that allow functional components to use React features such as state, effects, context, and references.
+
+Hooks were introduced in React 16.8.
+
+## Rules of Hooks
+
+1. Only call Hooks at the top level of React components or custom Hooks.
+2. Do not call Hooks inside loops, conditions, or nested functions.
+3. Only call Hooks from React components or custom Hooks.
+
+## Important React Hooks
+
+### 4.1 useState
+
+Used to manage component state.
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+### 4.2 useEffect
+
+Used to synchronize a component with external systems, such as API requests, subscriptions, or browser events.
+
+```jsx
+import { useEffect } from "react";
+
+useEffect(() => {
+  console.log("Component mounted");
+
+  return () => {
+    console.log("Cleanup");
+  };
+}, []);
+```
+
+Dependency array:
+
+- `[]` - Runs setup after the initial mount.
+- `[value]` - Runs setup when value changes.
+- No dependency array - Runs setup after every commit.
+
+### 4.3 useRef
+
+Used to store a mutable value that does not trigger a re-render when changed. It can also reference DOM elements.
+
+```jsx
+import { useRef } from "react";
+
+function App() {
+  const inputRef = useRef(null);
+
+  function focusInput() {
+    inputRef.current.focus();
+  }
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>
+        Focus Input
+      </button>
+    </>
+  );
+}
+```
+
+### 4.4 useMemo
+
+Used to cache the result of an expensive calculation between renders.
+
+```jsx
+const result = useMemo(() => {
+  return expensiveCalculation(number);
+}, [number]);
+```
+
+### 4.5 useCallback
+
+Used to cache a function definition between renders.
+
+```jsx
+const handleClick = useCallback(() => {
+  console.log("Button clicked");
+}, []);
+```
+
+### 4.6 Custom Hooks
+
+Custom Hooks allow us to reuse stateful logic across components.
+
+Example:
+
+```jsx
+import { useState } from "react";
+
+function useCounter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((previous) => previous + 1);
+  };
+
+  return { count, increment };
+}
+
+export default useCounter;
+```
+
+Usage:
+
+```jsx
+function Counter() {
+  const { count, increment } = useCounter();
+
+  return (
+    <>
+      <h2>{count}</h2>
+      <button onClick={increment}>
+        Increment
+      </button>
+    </>
+  );
+}
+```
+
+---
+
+# 📝 Practice Exercises
+
+Complete these exercises after understanding each topic.
+
+## Components
+
+- [ ] Create a Header component.
+- [ ] Create a Footer component.
+- [ ] Create a reusable Button component.
+- [ ] Create a UserProfile component.
+
+## Props
+
+- [ ] Pass name and age to a child component.
+- [ ] Pass an array of users through props.
+- [ ] Pass a function as props.
+- [ ] Understand props destructuring.
+
+## State
+
+- [ ] Create a counter application.
+- [ ] Create a show/hide password feature.
+- [ ] Create a toggle button.
+- [ ] Create a todo list.
+- [ ] Update object and array states.
+
+## Hooks
+
+- [ ] Practice useState.
+- [ ] Practice useEffect.
+- [ ] Practice useRef.
+- [ ] Practice useMemo.
+- [ ] Practice useCallback.
+- [ ] Create a custom Hook.
+
+---
+
+# 🎯 Interview Questions
+
+1. What is React?
+2. What are React Components?
+3. What is JSX?
+4. What is the difference between Props and State?
+5. Why should component names start with uppercase letters?
+6. What is the useState Hook?
+7. What is the useEffect Hook?
+8. What is the difference between useMemo and useCallback?
+9. What are the Rules of Hooks?
+10. What are Custom Hooks?
+11. What is Component Composition?
+12. Why should we not mutate React state directly?
+
+---
+
+# 📌 Learning Resources
+
+- React Official Documentation: https://react.dev/
+- React Hooks: https://react.dev/reference/react/hooks
+- Thinking in React: https://react.dev/learn/thinking-in-react
+
+---
+
+**Learning Goal:** Build a strong foundation in React before moving to advanced topics such as Redux Toolkit, Context API, Zustand, and TanStack Query.
+
+Happy Learning! 🚀
